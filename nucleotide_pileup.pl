@@ -20,11 +20,14 @@
 # 1) the sam file containing read information (must be without header)
 # 2) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
 # example: perl parse.pl chr1_small.sam 36932148
+# if a .bam file is given it should be coverted to bam. One of the many ways to convert .bam to .sam format is:
+# samtools view filename.bam > filename.sam
 
 ##### NOTE:
 # while calculating pileup, several other filtration criteria should be/ may be used to ensure the quality of reads and hence quality of the pileup
 # Examples of some of such criteria are:
-# minimum "QUAL" value, minimum "MAPQ" value, "PHRED" score
+# minimum "QUAL" value, minimum "MAPQ" value, "PHRED" score, min/max major/minor allele depth etc.
+# This script does not have any provision to include such additional arguments.
 
 
 ####################################################### END of Header ###################################################################################################################
