@@ -78,7 +78,7 @@ print "Reference allele (T) count = $T, Alternate allele (G) count = $G\n";
 
 sub parse_cigar{
 
-# subsetting the cigar string information into @match #######
+# Description: subsetting the cigar string information into @match #######
 # for example, 5M3I6M will be: $match[0] = 5M, $match[1] = 3I and $match[2] = 6M
 
 	my @match = ();
@@ -94,7 +94,7 @@ sub parse_cigar{
 
 sub cig_to_string{
 
-# conversion of cigar string into actual string #############
+# Description: conversion of cigar string into actual string #############
 # for example 2M3D4I ==> MMDDDIIII
 # the converted information is stored in @typearray
 
@@ -115,7 +115,8 @@ sub cig_to_string{
 
 sub modify_reads{
 
-# modification of read sequence according to cigar information stored in @typearray #####
+# Description: modification of read sequence according to cigar information stored in @typearray #####
+
 # A "*" is inserted into the palces of clipping (H and S), deletion (D) and padding (P)
 # However, in contrast to other 3 cases (H,D,P), no shifting of array is done in case of S.
 # example1: ATCCGCATGGATCGTGAC with 3H5M3D13M is converted to --> ***ATCCG***CATGGATCGTGAC
@@ -136,7 +137,7 @@ sub modify_reads{
 
 sub nuc_freq{
 
-#calculation of nucleotide frequency from modified read (@read) ########################
+#Description: calculation of nucleotide frequency from modified read (@read) ########################
 # "*" representing H,S,D,P are not counted
 # $read[$diff] refers to the nucleotide at the position of interest (stored in $pos)
                 
