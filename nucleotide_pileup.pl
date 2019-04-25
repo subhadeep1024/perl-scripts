@@ -87,6 +87,15 @@ sub parse_cigar{
 
 # Description: subsetting the cigar string information into @match #######
 # for example, 5M3I6M will be: $match[0] = 5M, $match[1] = 3I and $match[2] = 6M
+# Description of CIGAR string symbols:
+
+# M = match or mismatch
+# D = deletion
+# I = insertion
+# S = soft clipping
+# H = hard clipping
+# N = splicing events
+# P = padding
 
 	my @match = ();
 	my $cigar = @_[0];
