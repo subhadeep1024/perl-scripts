@@ -18,9 +18,10 @@
 
 ##### Input (from command line):
 # 1) The sam file containing read information (must be without header)
-# 2) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
-# 3) Reference allele
-# 4) Alternate allele
+# 2) chromosome number (e.g. chr1)
+# 3) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
+# 4) Reference allele
+# 5) Alternate allele
 # example: perl parse.pl chr1_small.sam 36932148 T G
 # if a .bam file is given it should be coverted to bam. One of the many ways to convert .bam to .sam format is:
 # samtools view filename.bam > filename.sam
@@ -76,7 +77,7 @@ foreach $line(@file){
         # 1) discards reads with missing cigar string information
         # 2) discards reads starting after $pos (as they can't overlap with $pos)
 
-        if($cigar != "*" && $diff >= 0){
+        if($cigar != "*" && $diff >= 0 && $fields[2] eq $ARGV[1]){
 		@match = parse_cigar($cigar);
 		@typearray = cig_to_string(\@match);
 		@modifiedread = modify_reads();
@@ -87,7 +88,7 @@ foreach $line(@file){
         }
 }
 ################################################## END of central loop #############################################################################################
-print "Reference allele ($ARGV[2]) count = ${$ARGV[2]}, Alternate allele ($ARGV[3]) count = ${$ARGV[3]}\n";
+print "Reference allele ($ARGV[3]) count = ${$ARGV[3]}, Alternate allele ($ARGV[4]) count = ${$ARGV[4]}\n";
 ####################################################################################################################################################################
 
 
