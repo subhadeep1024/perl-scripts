@@ -6,6 +6,7 @@
 ##### Description of this script: 
 # this perl script computes nuclotide pilepup at specific genotic location
 # unlike most of the available pileup calculation codes, this script does not need any reference genome.
+# No strand information is considered in this script 
 
 ##### Assumptions:
 # 1) The gaps in reference (i.e. deletion is reference or insertion in reads) also gets index
