@@ -6,7 +6,7 @@
 ##### Description of this script: 
 # this perl script computes nuclotide pilepup at specific genotic location
 # unlike most of the available pileup calculation codes, this script does not need any reference genome.
-# No strand information is considered in this script 
+# No strand information is considered in this script
 
 ##### Assumptions:
 # 1) The gaps in reference (i.e. deletion is reference or insertion in reads) also gets index
@@ -20,6 +20,12 @@
 # 1) the sam file containing read information (must be without header)
 # 2) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
 # example: perl parse.pl chr1_small.sam 36932148
+
+##### NOTE:
+# while calculating pileup, several other filtration criteria should be/ may be used to ensure the quality of reads and hence quality of the pileup
+# Examples of some of such criteria are:
+# minimum "QUAL" value, minimum "MAPQ" value, "PHRED" score
+
 
 ####################################################### END of Header ###################################################################################################################
 
