@@ -1,11 +1,13 @@
 #! usr/bin/perl
 
+# Description: This script calculates nucleotide pileup and from it calculates nucleotide frequency at a given genomic location.
+
 ##### Assumptions: 
 # 1) The gaps in reference (i.e. deletion is reference or insertion in reads) also gets index
 # for example,
 # index:        1 2 3 4 5 6 7 8 9 10
 # reference:    A T G G - - T A T G
-# read(query):  A T - C T T T A T G (cigar: 2M1D1M2I5M)
+# read(query):  A T - C T T T A T G (cigar: 2M1D1M2I4M)
 
 
 # Input from command line:
@@ -71,7 +73,7 @@ foreach $line(@file){
 		# A "*" is inserted into the palces of clipping (H and S), deletion (D) and padding (P)
 		# However, in contrast to other 3 cases (H,D,P), no shifting of array is done in case of S.
 		# example1: ATCCGCATGGATCGTGAC with 3H5M3D13M is converted to --> ***ATCCG***CATGGATCGTGAC
-		# example2: ATCCGCATGGATCGTGAC with 3S5M3D13M is converted to --> ***CGCAT***GGATCGTGAC
+		# example2: ATCCGCATGGATCGTGAC with 3S5M3D10M is converted to --> ***CGCAT***GGATCGTGAC
 
 		@read = split("",$fields[9]);
 		#@actualread = @read;	
