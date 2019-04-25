@@ -3,7 +3,7 @@
 
 ###################################################### Header section ###################################################################################################
 
-##### Description of this script: 
+##### Description of this script:
 # this perl script computes nuclotide pilepup at specific genotic location
 # unlike most of the available pileup calculation codes, this script does not need any reference genome.
 # No strand information is considered in this script
@@ -17,13 +17,13 @@
 
 
 ##### Input (from command line):
-# 1) The sam file containing read information (must be without header)
+# 1) the sam file containing read information (must be without header)
 # 2) chromosome number (e.g. chr1)
 # 3) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
 # 4) Reference allele
 # 5) Alternate allele
-# example: perl parse.pl chr1_small.sam 36932148 T G
-# if a .bam file is given it should be coverted to bam. One of the many ways to convert .bam to .sam format is:
+# example: perl parse.pl chr1_small.sam chr1 36932148 T G
+# If a .bam file is given it should be coverted to bam. One of the many ways to convert .bam to .sam format is:
 # samtools view filename.bam > filename.sam
 
 ##### NOTE:
@@ -43,7 +43,7 @@ chomp(my @file = <$handle>);
 close $handle;
 
 # set the concerened position into a variable
-$pos = $ARGV[1];
+$pos = $ARGV[2];
 
 #setting the initial counts of each nucleotide to 0
 $A=0;$T=0;$G=0;$C=0;
@@ -57,6 +57,7 @@ $A=0;$T=0;$G=0;$C=0;
 ##################################################### central loop #######################################################################################################
 # parsing each line of the input file
 foreach $line(@file){
+
         chomp($line);
 
         # reading each fields of a line of input file into an array (@fields)
@@ -68,23 +69,23 @@ foreach $line(@file){
         # reading the cigar string field into $cigar
         $cigar = $fields[5];
 
-	# reading the read sequence into @read
-	@read = split("",$fields[9]);
+        # reading the read sequence into @read
+        @read = split("",$fields[9]);
 
-	#@typearray = ();
+        #@typearray = ();
 
-	# The following if condition:
+        # The following if condition:
         # 1) discards reads with missing cigar string information
         # 2) discards reads starting after $pos (as they can't overlap with $pos)
 
         if($cigar != "*" && $diff >= 0 && $fields[2] eq $ARGV[1]){
-		@match = parse_cigar($cigar);
-		@typearray = cig_to_string(\@match);
-		@modifiedread = modify_reads();
+                @match = parse_cigar($cigar);
+                @typearray = cig_to_string(\@match);
+                @modifiedread = modify_reads();
 
-		# the following print statement may be run to get an essence of the code
-		#$print "$cigar\n$fields[9]\n".join("", @typearray)."\n".join("",@modifiedread)."\n\n";
-		nuc_freq();
+                # the following print statement may be run to get an essence of the code
+                #$print "$cigar\n$fields[9]\n".join("", @typearray)."\n".join("",@modifiedread)."\n\n";
+                nuc_freq();
         }
 }
 ################################################## END of central loop #############################################################################################
@@ -110,9 +111,9 @@ sub parse_cigar{
 # N = splicing events
 # P = padding
 
-	my @match = ();
-	my $cigar = @_[0];
-	@match = ($cigar =~ /\d+[M|D|I|S|H|N|P]/g);
+        my @match = ();
+        my $cigar = @_[0];
+        @match = ($cigar =~ /\d+[M|D|I|S|H|N|P]/g);
         @match= grep { $_ ne '' } @match;
         return @match;
 }
@@ -123,16 +124,16 @@ sub cig_to_string{
 # for example 2M3D4I ==> MMDDDIIII
 # the converted information is stored in @typearray
 
-	my @value=();
-	my @typearray = ();
-	my @match = @{$_[0]};
+        my @value=();
+        my @typearray = ();
+        my @match = @{$_[0]};
         foreach (@match){
-        	@value = ($_ =~ /(\d+)([a-z])/gi);
-        	for ($i=0;$i<$value[0];$i++){
-        		push(@typearray,$value[1]);
-        	}
+                @value = ($_ =~ /(\d+)([a-z])/gi);
+                for ($i=0;$i<$value[0];$i++){
+                        push(@typearray,$value[1]);
+                }
         }
-	return @typearray;
+        return @typearray;
 }
 
 #############################
@@ -145,15 +146,15 @@ sub modify_reads{
 # example1: ATCCGCATGGATCGTGAC with 3H5M3D13M is converted to --> ***ATCCG***CATGGATCGTGAC
 # example2: ATCCGCATGGATCGTGAC with 3S5M3D10M is converted to --> ***CGCAT***GGATCGTGAC
 
-	foreach($i=0;$i<scalar(@typearray);$i++){
-        	if($typearray[$i]=~/H|D|P/i){
-                	splice @read, $i,0,'*';
+        foreach($i=0;$i<scalar(@typearray);$i++){
+                if($typearray[$i]=~/H|D|P/i){
+                        splice @read, $i,0,'*';
                 }
                 elsif($typearray[$i]=~/S/i){
-                	$read[$i] = "*";
+                        $read[$i] = "*";
                 }
         }
-	return @read;
+        return @read;
 }
 
 #############################
@@ -162,23 +163,22 @@ sub nuc_freq{
 #Description: calculation of nucleotide frequency from modified read (@read) ########################
 # "*" representing H,S,D,P are not counted
 # $read[$diff] refers to the nucleotide at the position of interest (stored in $pos)
-                
-	@read = @modifiedread;
-	if(exists$read[$diff]){
-        	if($read[$diff]=~/A/){
-                	$A++;
+
+        @read = @modifiedread;
+        if(exists$read[$diff]){
+                if($read[$diff]=~/A/){
+                        $A++;
                 }
-                if($read[$diff]=~/T/){
+                elsif($read[$diff]=~/T/){
                         $T++;
                 }
-                if($read[$diff]=~/G/){
+                elsif($read[$diff]=~/G/){
                         $G++;
                 }
-                if($read[$diff]=~/C/){
-                   	$C++;
+                elsif($read[$diff]=~/C/){
+                        $C++;
                 }
         }
-
 }
 
 ###################################################### END of subroutines ######################################################################################################################
