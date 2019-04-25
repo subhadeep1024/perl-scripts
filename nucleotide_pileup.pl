@@ -17,7 +17,7 @@
 
 
 ##### Input (from command line):
-# 1) the sam file containing read information (must be without header)
+# 1) the sam file (or path if the file is not present in same directory) containing the "read" information (must be without header)
 # 2) chromosome number (e.g. chr1)
 # 3) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
 # 4) Reference allele
