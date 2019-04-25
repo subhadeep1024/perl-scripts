@@ -2,6 +2,11 @@
 
 
 ###################################################### Header section ###################################################################################################
+
+##### Description of this script: 
+# this perl script computes nuclotide pilepup at specific genotic location
+# unlike most of the available pileup calculation codes, this script does not need any reference genome.
+
 ##### Assumptions:
 # 1) The gaps in reference (i.e. deletion is reference or insertion in reads) also gets index
 # for example,
@@ -10,11 +15,12 @@
 # read(query):  A T - C T T T A T G (cigar: 2M1D1M2I4M)
 
 
-# Input from command line:
+##### Input (from command line):
 # 1) the sam file containing read information (must be without header)
 # 2) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
 # example: perl parse.pl chr1_small.sam 36932148
-##########################################################################################################################################################################
+
+####################################################### END of Header ###################################################################################################################
 
 
 ###################################################### Golbal variables ##################################################################################################
@@ -23,7 +29,7 @@ open my $handle, '<', $ARGV[0];
 chomp(my @file = <$handle>);
 close $handle;
 
-# set the concerened position in to a variable
+# set the concerened position into a variable
 $pos = $ARGV[1];
 
 #setting the initial counts of each nucleotide to 0
@@ -32,7 +38,7 @@ $A=0;$T=0;$G=0;$C=0;
 @match = ();
 @typearray = ();
 @modifiedread = ();
-##########################################################################################################################################################################
+###################################################### End of Global variables ####################################################################################################################
 
 
 ##################################################### central loop #######################################################################################################
@@ -68,7 +74,7 @@ foreach $line(@file){
 		nuc_freq();
         }
 }
-
+################################################## END of central loop #############################################################################################
 print "Reference allele (T) count = $T, Alternate allele (G) count = $G\n";
 ####################################################################################################################################################################
 
@@ -76,6 +82,7 @@ print "Reference allele (T) count = $T, Alternate allele (G) count = $G\n";
 
 ###################################################### subroutines #################################################################################################
 
+###########################
 sub parse_cigar{
 
 # Description: subsetting the cigar string information into @match #######
@@ -88,12 +95,8 @@ sub parse_cigar{
         return @match;
 }
 
-
-
-
-
+###########################
 sub cig_to_string{
-
 # Description: conversion of cigar string into actual string #############
 # for example 2M3D4I ==> MMDDDIIII
 # the converted information is stored in @typearray
@@ -110,9 +113,7 @@ sub cig_to_string{
 	return @typearray;
 }
 
-
-
-
+#############################
 sub modify_reads{
 
 # Description: modification of read sequence according to cigar information stored in @typearray #####
@@ -133,8 +134,7 @@ sub modify_reads{
 	return @read;
 }
 
-
-
+#############################
 sub nuc_freq{
 
 #Description: calculation of nucleotide frequency from modified read (@read) ########################
@@ -159,4 +159,4 @@ sub nuc_freq{
 
 }
 
-############################################################################################################################################################################
+###################################################### END of subroutines ######################################################################################################################
