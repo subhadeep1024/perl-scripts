@@ -17,9 +17,11 @@
 
 
 ##### Input (from command line):
-# 1) the sam file containing read information (must be without header)
+# 1) The sam file containing read information (must be without header)
 # 2) The position of interest (the nucleotide position where the nucleotide frequencies will be calculated)
-# example: perl parse.pl chr1_small.sam 36932148
+# 3) Reference allele
+# 4) Alternate allele
+# example: perl parse.pl chr1_small.sam 36932148 T G
 # if a .bam file is given it should be coverted to bam. One of the many ways to convert .bam to .sam format is:
 # samtools view filename.bam > filename.sam
 
@@ -85,7 +87,7 @@ foreach $line(@file){
         }
 }
 ################################################## END of central loop #############################################################################################
-print "Reference allele (T) count = $T, Alternate allele (G) count = $G\n";
+print "Reference allele ($ARGV[2]) count = ${$ARGV[2]}, Alternate allele ($ARGV[3]) count = ${$ARGV[3]}\n";
 ####################################################################################################################################################################
 
 
