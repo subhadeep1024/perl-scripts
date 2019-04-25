@@ -81,7 +81,6 @@ sub parse_cigar{
 # subsetting the cigar string information into @match #######
 # for example, 5M3I6M will be: $match[0] = 5M, $match[1] = 3I and $match[2] = 6M
 
-	#print "I am here\n";
 	my @match = ();
 	my $cigar = @_[0];
 	@match = ($cigar =~ /\d+[M|D|I|S|H|N|P]/g);
